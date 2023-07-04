@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
+require("dotenv").config();
+const PORT = process.env.PORT || 4000;
 
 const mongoose = require("mongoose");
 const Router = require("./router");
@@ -18,7 +19,7 @@ app.use(
 app.use(Router);
 app.use("/uploads", express.static("upload"));
 mongoose
-  .connect("mongodb+srv://test:test@cluster0.ansjzrs.mongodb.net/", {
+  .connect(process.env.MONGO_DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
