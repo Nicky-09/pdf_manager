@@ -1,0 +1,134 @@
+.input {
+  max-width: 190px;
+  height: 44px;
+  background-color: #05060f0a;
+  border-radius: 0.5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  transition: border-color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
+    color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
+    background 0.2s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
+}
+
+/* .signup-container {
+    background-color: red;
+  } */
+
+.label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #05060f99;
+  transition: color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
+}
+
+.input:hover,
+.input:focus,
+.input-group:hover .input {
+  outline: none;
+  border-color: #05060f;
+}
+
+.input-group:hover .label,
+.input:focus {
+  color: #05060fc2;
+}
+
+/* .button {
+  width: 100px;
+  height: 30px;
+  border: 3px solid rgb(0, 149, 246);
+  background: rgb(0, 149, 246);
+  color: white;
+  border-radius: 45px;
+  transition: all 0.3s;
+  cursor: pointer;
+  background: white;
+  font-size: 1em;
+  font-weight: 550;
+  font-family: "Montserrat", sans-serif;
+}
+
+.button:hover {
+  background: rgb(0, 149, 246);
+  color: white;
+  font-size: 0.8em;
+} */
+
+.input-container {
+  margin: 10px;
+  padding: 5px;
+}
+
+.login-container {
+  display: flex;
+  /* margin: auto 0;*/
+  /* margin-top: 50px; */
+  padding: 5px;
+  /* background: #f5f5f5; */
+  justify-content: center;
+}
+
+.form-container {
+  width: 21%;
+  height: 400px;
+  padding: 27px;
+  margin-top: 90px;
+  /* border: 1px solid; */
+  box-shadow: 0 8px 50px #23232333;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.form-container:hover {
+  box-shadow: 0 8px 50px #23232333;
+}
+
+/* .form-container:hover {
+  transform: translateY(-5%);
+} */
+
+.content__or-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 13px;
+  column-gap: 18px;
+  margin-top: 18px;
+}
+
+.content__or-text span:nth-child(3),
+.content__or-text span:nth-child(1) {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: rgb(219, 219, 219);
+}
+
+.content__signup-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 28px;
+  row-gap: 21px;
+}
+
+.content__signup-buttons button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #00376b;
+}
+
+.content__signup-buttons button:first-child {
+  color: #385185;
+  font-size: 14px;
+  font-weight: 600;
+}

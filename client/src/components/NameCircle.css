@@ -1,0 +1,12 @@
+.name-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #27609c;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
