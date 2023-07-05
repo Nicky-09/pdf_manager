@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     if (file.mimetype === "application/pdf") {
-      cb(null, file.originalname + "-" + uniqueSuffix);
+      cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
     } else {
       cb(new Error("Invalid file type. Only PDF files are allowed."));
     }

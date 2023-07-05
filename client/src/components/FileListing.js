@@ -98,7 +98,7 @@ const FileListing = ({ file, fetchListings }) => {
         <div className="modal-pdfComment">
           <div>
             <iframe
-              src={`${url}uploads/${filename}?token=${accessToken}`}
+              src={`${url}/uploads/${filename}?token=${accessToken}`}
               className="pdf-iframe"
               style={{ width: "700px", height: "1000px" }}
               title="PDF Viewer"

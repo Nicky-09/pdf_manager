@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Listings.css";
 
 import FileListing from "./FileListing";
-import NoDoc from "./NoDoc";
-import { Button, Input, Skeleton } from "antd";
+
+import { Button, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Navbar from "./Navbar";
 import { url } from "../config";
-import Shimmer from "./Shimmer";
 
 const Listings = ({
   onUpload,
@@ -20,12 +19,10 @@ const Listings = ({
 }) => {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const { Search } = Input;
   // console.log(listings);
   const accessToken = localStorage.getItem("access_token");
   const fetchListings = async () => {
-    setIsLoading(true);
     try {
       const response = await fetch(`${url}/listings`, {
         method: "GET",
@@ -42,8 +39,6 @@ const Listings = ({
       }
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
   useEffect(() => {
