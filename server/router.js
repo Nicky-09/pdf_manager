@@ -202,7 +202,7 @@ Router.post("/access", authorize, async (req, res) => {
   }
 });
 
-Router.get("/uploads/:filename", async (req, res) => {
+Router.get("/uploads/:filename", authorize, async (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, "uploads", filename);
   console.log(" inside");
