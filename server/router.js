@@ -9,12 +9,24 @@ const { ObjectId } = mongoose.Types;
 
 const multer = require("multer");
 
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     // const uploadDir = "./uploads"; // Specify your desired upload directory
+//     // fs.mkdirSync(uploadDir, { recursive: true });
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//     if (file.mimetype === "application/pdf") {
+//       cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
+//     } else {
+//       cb(new Error("Invalid file type. Only PDF files are allowed."));
+//     }
+//   },
+// });
+
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // const uploadDir = "./uploads"; // Specify your desired upload directory
-    // fs.mkdirSync(uploadDir, { recursive: true });
-    cb(null, "uploads/");
-  },
+  destination: path.join(__dirname, "uploads"),
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     if (file.mimetype === "application/pdf") {
