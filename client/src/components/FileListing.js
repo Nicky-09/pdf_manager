@@ -28,11 +28,11 @@ const FileListing = ({ file, fetchListings }) => {
   const handlePdfModalClose = () => {
     setShowPdfModal(false);
   };
-  const accessToken = localStorage.getItem("access_token");
 
   const handleFileClick = (filename) => {
     setShowPdfModal(true);
   };
+  console.log(file.filePath);
 
   const shortenFileName = (fileName, maxLength) => {
     if (fileName.length <= maxLength) {
@@ -99,7 +99,7 @@ const FileListing = ({ file, fetchListings }) => {
         <div className="modal-pdfComment">
           <div>
             <iframe
-              src={`${url}/public/${filename}?token=${accessToken}`}
+              src={file.filePath}
               className="pdf-iframe"
               style={{ width: "700px", height: "1000px" }}
               title="PDF Viewer"

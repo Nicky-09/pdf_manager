@@ -7,37 +7,20 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
 
-const multer = require("multer");
+const admin = require("firebase-admin");
+const serviceAccount = require("./firebase.json");
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     // const uploadDir = "./uploads"; // Specify your desired upload directory
-//     // fs.mkdirSync(uploadDir, { recursive: true });
-//     cb(null, "uploads/");
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-//     if (file.mimetype === "application/pdf") {
-//       cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
-//     } else {
-//       cb(new Error("Invalid file type. Only PDF files are allowed."));
-//     }
-//   },
-// });
-
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, "public"),
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    if (file.mimetype === "application/pdf") {
-      cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
-    } else {
-      cb(new Error("Invalid file type. Only PDF files are allowed."));
-    }
-  },
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: "pdf-management-359aa.appspot.com",
 });
 
-const upload = multer({ storage: storage });
+const bucket = admin.storage().bucket();
+
+const Multer = require("multer");
+const upload = Multer({
+  storage: Multer.memoryStorage(),
+});
 
 Router.get("/heathCheck", (req, res) => {
   res.send("Server is up and running");
@@ -130,31 +113,57 @@ Router.post(
   authorize,
   upload.single("file"),
   async (req, res) => {
-    // console.log("hello", req);
     try {
       if (!req.file) {
         throw new Error("No file provided");
       }
-      const payload = {
-        name: req?.file?.filename,
-        filePath: req?.file?.path,
-        user: [
-          {
-            userId: req?.user?.userId,
-            email: req?.user?.email,
-            username: req?.user?.username,
-            isAdmin: true,
-          },
-        ],
-      };
-      const file = new Files(payload);
-      await file.save();
-      console.log("file uploaded sucessfully");
-      // Process the uploaded file
-      res.json({
-        message: "File uploaded successfully",
-        filePath: req.file.path,
+      const bucket = admin.storage().bucket();
+      const filename = Date.now() + req?.file?.originalname;
+      console.log(req?.file);
+
+      const blob = bucket.file(filename);
+
+      const fileStream = blob.createWriteStream({
+        metadata: {
+          contentType: req?.file.mimetype,
+        },
       });
+
+      fileStream.on("error", (error) => {
+        res.status(500).json({ error: error });
+      });
+
+      fileStream.on("finish", async () => {
+        await blob.makePublic();
+
+        const publicUrl = await blob.getSignedUrl({
+          action: "read",
+          expires: "01-01-2030",
+        });
+
+        console.log(publicUrl[0]);
+        const payload = {
+          name: filename,
+          filePath: publicUrl[0],
+          user: [
+            {
+              userId: req?.user?.userId,
+              email: req?.user?.email,
+              username: req?.user?.username,
+              isAdmin: true,
+            },
+          ],
+        };
+        const file = new Files(payload);
+        await file.save();
+        console.log("file uploaded sucessfully");
+        // Process the uploaded file
+        res.json({
+          message: "File uploaded successfully",
+          filePath: req.file.path,
+        });
+      });
+      fileStream.end(req?.file.buffer);
     } catch (err) {
       console.log("error", err);
       res.status(400).json({ message: err.message });
