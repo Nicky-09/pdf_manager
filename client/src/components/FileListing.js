@@ -44,7 +44,7 @@ const FileListing = ({ file, fetchListings }) => {
   };
 
   const filename = file.name;
-  console.log(`${url}/uploads/${filename}`);
+  console.log(`${url}/public/${filename}`);
 
   return (
     <div className="file-card">
@@ -99,7 +99,7 @@ const FileListing = ({ file, fetchListings }) => {
         <div className="modal-pdfComment">
           <div>
             <iframe
-              src={`${url}/uploads/${filename}?token=${accessToken}`}
+              src={`${url}/public/${filename}?token=${accessToken}`}
               className="pdf-iframe"
               style={{ width: "700px", height: "1000px" }}
               title="PDF Viewer"

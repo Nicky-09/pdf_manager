@@ -26,7 +26,7 @@ const multer = require("multer");
 // });
 
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, "uploads"),
+  destination: path.join(__dirname, "public"),
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     if (file.mimetype === "application/pdf") {
@@ -212,9 +212,9 @@ Router.post("/access", authorize, async (req, res) => {
   }
 });
 
-Router.get("/uploads/:filename", authorize, async (req, res) => {
+Router.get("/public/:filename", authorize, async (req, res) => {
   const filename = req.params.filename;
-  const filePath = path.join(__dirname, "uploads", filename);
+  const filePath = path.join(__dirname, "public", filename);
   console.log(" inside");
 
   const existingFile = await Files.findOne({ name: filename });
