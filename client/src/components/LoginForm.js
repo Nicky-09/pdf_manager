@@ -3,6 +3,8 @@ import "./Login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import { url } from "../config";
+import { ToastContainer, toast } from "react-toastify";
 
 function LoginFrame() {
   const style = {
@@ -26,7 +28,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch(`${url}/login`, {
         method: "POST",
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -40,16 +42,17 @@ const LoginForm = () => {
       localStorage.setItem("access_token", accessToken); // Handle the response data
 
       if (response.ok) {
-        console.log("Login successful");
+        toast.success("Login successful");
 
         navigate("/home");
         // Perform any additional actions upon successful login
       } else {
-        console.log("Error:", data.error);
+        toast.error(data.message);
+        // console.log(message);
         // Handle the error condition appropriately
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error(error);
       // Handle any network or other errors
     }
   };
@@ -60,6 +63,7 @@ const LoginForm = () => {
 
   return (
     <>
+      <ToastContainer />
       <LoginFrame />
       <div className="login-container">
         <div className="form-container">

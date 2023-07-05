@@ -1,8 +1,15 @@
 import React from "react";
 import "./Navbar.css";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
-function Navbar({ onLogout }) {
+function Navbar() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    // setLoggedIn(false);
+    navigate("/login");
+  };
   return (
     <nav className="navbar">
       <ul className="navbar-list">
@@ -10,7 +17,7 @@ function Navbar({ onLogout }) {
           <h3>My Files</h3>
         </li>
         <li className="navbar-item">
-          <Button onClick={onLogout} className="navbar-button">
+          <Button onClick={handleLogout} className="navbar-button">
             Logout
           </Button>
         </li>

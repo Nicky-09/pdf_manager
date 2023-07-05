@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Button, Input } from "antd";
 import "./FileListing.css";
 import NameCircle from "./NameCirlce";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { url } from "../config";
 
 const ShareFileModal = ({ fileId, file, fetchListings }) => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ const ShareFileModal = ({ fileId, file, fetchListings }) => {
   const handleShare = async () => {
     const accessToken = localStorage.getItem("access_token");
     try {
-      const response = await fetch("http://localhost:8080/access", {
+      const response = await fetch(`${url}/access`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

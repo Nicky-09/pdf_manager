@@ -6,6 +6,7 @@ import "./FileListing.css";
 import ShareFileModal from "./ShareFileModal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { url } from "../config";
 
 const FileListing = ({ file, fetchListings }) => {
   const [showModal, setShowModal] = useState(false);
@@ -97,7 +98,7 @@ const FileListing = ({ file, fetchListings }) => {
         <div className="modal-pdfComment">
           <div>
             <iframe
-              src={`http://localhost:8080/uploads/${filename}?token=${accessToken}`}
+              src={`${url}uploads/${filename}?token=${accessToken}`}
               className="pdf-iframe"
               style={{ width: "700px", height: "1000px" }}
               title="PDF Viewer"

@@ -33,21 +33,6 @@ const appRouter = createBrowserRouter([
   },
 ]);
 
-// const appRouter = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//   },
-//   {
-//     path: "/signup",
-//     element: <SignupForm />,
-//   },
-//   {
-//     path: "/login",
-//     element: <LoginForm />,
-//   },
-// ]);
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

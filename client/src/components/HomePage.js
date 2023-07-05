@@ -17,11 +17,6 @@ function LandingFrameMessage() {
   };
   return (
     <div style={style}>
-      {/* <div style={{ "font-size": "96px" }}>Hello World!!</div>
-
-      <div style={{ "font-size": "36px" }}>
-        Upload your first pdf document and collabarate
-      </div> */}
       <br />
       <br />
       <LandingPageButton />

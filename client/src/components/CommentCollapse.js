@@ -6,6 +6,7 @@ import moment from "moment";
 import "./CommentCollapse.css";
 import NameCircle from "./NameCirlce";
 import { toast } from "react-toastify";
+import { url } from "../config";
 
 const { Panel } = Collapse;
 
@@ -21,7 +22,7 @@ const CommentCollapse = ({ isCollapseOpen, file, fetchListings }) => {
   const handleSendComment = async () => {
     const accessToken = localStorage.getItem("access_token");
     try {
-      const response = await fetch("http://localhost:8080/comments", {
+      const response = await fetch(`${url}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -3,22 +3,34 @@ import "./Listings.css";
 
 import FileListing from "./FileListing";
 import NoDoc from "./NoDoc";
-import { Button, Input } from "antd";
+import { Button, Input, Skeleton } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Navbar from "./Navbar";
+import { url } from "../config";
+import Shimmer from "./Shimmer";
 
-const Listings = ({ onUpload, handleUpload, handleLogout }) => {
+const Listings = ({
+  onUpload,
+  handleUpload,
+  handleLogout,
+  file,
+  setFile,
+  isModalOpen,
+  setIsModalOpen,
+}) => {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const { Search } = Input;
   // console.log(listings);
   const accessToken = localStorage.getItem("access_token");
   const fetchListings = async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/listings", {
+      const response = await fetch(`${url}/listings`, {
         method: "GET",
         headers: {
-          Authorization: `${accessToken}`, // Set the access token from localStorage
+          Authorization: `${accessToken}`,
         },
       });
 
@@ -30,6 +42,8 @@ const Listings = ({ onUpload, handleUpload, handleLogout }) => {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -48,12 +62,28 @@ const Listings = ({ onUpload, handleUpload, handleLogout }) => {
     listing?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (listings.length === 0) return <NoDoc />;
+  if (isLoading) {
+    return (
+      <div className="shimmer-container">
+        <Shimmer />
+      </div>
+    );
+  }
+
+  // if (listings.length === 0)
+  //   return (
+  //     <NoDoc
+  //       file={file}
+  //       setFile={setFile}
+  //       isModalOpen={isModalOpen}
+  //       setIsModalOpen={setIsModalOpen}
+  //     />
+  //   );
   const hasResults = filteredListings.length > 0;
 
   return (
     <>
-      <Navbar onLogout={handleLogout} />
+      <Navbar />
       <div className="mainfile-container">
         <div className="topbar-container">
           <Button
@@ -64,28 +94,31 @@ const Listings = ({ onUpload, handleUpload, handleLogout }) => {
           >
             Upload New File
           </Button>
-          <Search
-            placeholder="Search File"
-            onSearch={onSearch}
-            onChange={onChange}
-            enterButton
-            style={{ width: "30%" }}
-          />
-        </div>
-
-        <div className="files-container">
-          {hasResults ? (
-            filteredListings.map((listing) => (
-              <div key={listing._id} className="file-listing">
-                <FileListing file={listing} fetchListings={fetchListings} />
-              </div>
-            ))
-          ) : (
-            <>
-              <img src="nodata.jpeg" alt="No data found" />
-            </>
+          {listings.length !== 0 && (
+            <Search
+              placeholder="Search File"
+              onSearch={onSearch}
+              onChange={onChange}
+              enterButton
+              style={{ width: "30%" }}
+            />
           )}
         </div>
+        {listings.length !== 0 && (
+          <div className="files-container">
+            {hasResults ? (
+              filteredListings.map((listing) => (
+                <div key={listing._id} className="file-listing">
+                  <FileListing file={listing} fetchListings={fetchListings} />
+                </div>
+              ))
+            ) : (
+              <>
+                <img src="nodata.jpeg" alt="No data found" />
+              </>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import { url } from "../config";
+import { ToastContainer, toast } from "react-toastify";
 
 function SignUpFrame() {
   const style = {
@@ -25,7 +27,7 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/signup", {
+      const response = await fetch(`${url}/signup`, {
         method: "POST",
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -38,12 +40,13 @@ const SignupForm = () => {
       // Handle the response data
 
       if (response.ok) {
-        console.log("User created successfully");
+        toast.success("User created successfully");
+        console.log("SUCCESS");
         navigate("/login");
 
         // Perform any additional actions upon successful user creation
       } else {
-        console.log("Error:", data.error);
+        toast.error(data.message);
         // Handle the error condition appropriately
       }
     } catch (error) {
@@ -55,13 +58,14 @@ const SignupForm = () => {
   return (
     <>
       <SignUpFrame />
+      <ToastContainer />
       <div className="signup-container">
         <div className="form-container">
           <form onSubmit={handleSubmit}>
             <div className="input-container">
               {/* <label className="label" htmlFor="username">
-              Username
-            </label> */}
+                Username
+              </label> */}
               <input
                 className="input"
                 type="text"
@@ -91,7 +95,12 @@ const SignupForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button type="primary" className="button" onClick={handleSubmit}>
+            <Button
+              type="primary"
+              className="button"
+              disabled={!email || !password || !username}
+              onClick={handleSubmit}
+            >
               Signup
             </Button>
           </form>

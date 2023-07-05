@@ -59,11 +59,11 @@ Router.post("/signup", async (req, res) => {
   try {
     const existingUser = await Users.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ error: "Email already exists" });
+      return res.status(409).json({ message: "Email already exists" });
     }
 
     if (!password) {
-      return res.status(400).json({ error: "Password is required" });
+      return res.status(400).json({ message: "Password is required" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -76,7 +76,7 @@ Router.post("/signup", async (req, res) => {
       .json({ message: "User created successfully", success: true });
   } catch (error) {
     console.log("/signup - error", error);
-    res.status(500).json({ error: "Internal server error", success: false });
+    res.status(500).json({ message: "Internal server error", success: false });
   }
 });
 
@@ -86,12 +86,12 @@ Router.post("/login", async (req, res) => {
   try {
     const user = await Users.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const token = jwt.sign(
@@ -145,9 +145,9 @@ Router.post(
         message: "File uploaded successfully",
         filePath: req.file.path,
       });
-    } catch (error) {
-      console.log("error", error);
-      res.status(400).json({ error: error });
+    } catch (err) {
+      console.log("error", err);
+      res.status(400).json({ message: err.message });
     }
   }
 );
@@ -194,11 +194,11 @@ Router.post("/access", authorize, async (req, res) => {
 
       return res.status(200).json({ message: "File Shared Successfully" });
     } else {
-      return res.status(404).json({ error: "File Not Found" });
+      return res.status(404).json({ message: "File Not Found" });
     }
   } catch (err) {
     console.log(err);
-    return res.status(400).json({ error: err.message });
+    return res.status(400).json({ message: err.message });
   }
 });
 

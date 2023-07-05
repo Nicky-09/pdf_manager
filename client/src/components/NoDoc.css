@@ -1,0 +1,10 @@
+.no-doc {
+  display: flex;
+  padding: 50px;
+}
+
+.nodoc-content {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
