@@ -44,6 +44,7 @@ const FileListing = ({ file, fetchListings }) => {
   };
 
   const filename = file.name;
+  console.log(`${url}/uploads/${filename}`);
 
   return (
     <div className="file-card">

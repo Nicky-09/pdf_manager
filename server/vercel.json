@@ -4,10 +4,11 @@
 
   "routes": [{ "src": "/(.*)", "dest": "/" }],
 
+  "public": "/public",
   "rewrites": [
     {
       "source": "/uploads/(.*)",
-      "destination": "/server/uploads/$1"
+      "destination": "/uploads/$1"
     }
   ]
 }

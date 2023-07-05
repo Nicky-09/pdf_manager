@@ -11,7 +11,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "public/uploads/");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -202,7 +202,7 @@ Router.post("/access", authorize, async (req, res) => {
   }
 });
 
-Router.get("/uploads/:filename", authorize, async (req, res) => {
+Router.get("/uploads/:filename", async (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, "uploads", filename);
   console.log(" inside");
