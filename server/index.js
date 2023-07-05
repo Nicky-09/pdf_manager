@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 
@@ -17,7 +18,12 @@ app.use(
   })
 );
 app.use(Router);
-app.use("/uploads", express.static("upload"));
+
+const uploadFolder = path.join(__dirname, "uploads");
+
+// Serve static files from the upload folder
+app.use("/uploads", express.static(uploadFolder));
+
 mongoose
   .connect(process.env.MONGO_DB_URI, {
     useNewUrlParser: true,

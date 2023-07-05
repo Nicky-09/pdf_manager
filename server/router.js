@@ -11,9 +11,9 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = "./uploads"; // Specify your desired upload directory
-    fs.mkdirSync(uploadDir, { recursive: true });
-    cb(null, "./uploads/");
+    // const uploadDir = "./uploads"; // Specify your desired upload directory
+    // fs.mkdirSync(uploadDir, { recursive: true });
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -118,11 +118,11 @@ Router.post(
   authorize,
   upload.single("file"),
   async (req, res) => {
+    // console.log("hello", req);
     try {
       if (!req.file) {
         throw new Error("No file provided");
       }
-
       const payload = {
         name: req?.file?.filename,
         filePath: req?.file?.path,
@@ -135,14 +135,10 @@ Router.post(
           },
         ],
       };
-
       const file = new Files(payload);
       await file.save();
-
       console.log("file uploaded sucessfully");
-
       // Process the uploaded file
-
       res.json({
         message: "File uploaded successfully",
         filePath: req.file.path,
