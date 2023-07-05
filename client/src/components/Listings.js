@@ -8,15 +8,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import Navbar from "./Navbar";
 import { url } from "../config";
 
-const Listings = ({
-  onUpload,
-  handleUpload,
-  handleLogout,
-  file,
-  setFile,
-  isModalOpen,
-  setIsModalOpen,
-}) => {
+const Listings = ({ onUpload, handleUpload }) => {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { Search } = Input;
@@ -57,23 +49,6 @@ const Listings = ({
     listing?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="shimmer-container">
-  //       <Shimmer />
-  //     </div>
-  //   );
-  // }
-
-  // if (listings.length === 0)
-  //   return (
-  //     <NoDoc
-  //       file={file}
-  //       setFile={setFile}
-  //       isModalOpen={isModalOpen}
-  //       setIsModalOpen={setIsModalOpen}
-  //     />
-  //   );
   const hasResults = filteredListings.length > 0;
 
   return (
@@ -109,7 +84,8 @@ const Listings = ({
               ))
             ) : (
               <>
-                <img src="nodata.jpeg" alt="No data found" />
+                <p>No data found</p>
+                {/* <img src="nodata.jpeg" alt="No data found" /> */}
               </>
             )}
           </div>
