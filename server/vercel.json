@@ -4,7 +4,6 @@
 
   "routes": [{ "src": "/(.*)", "dest": "/" }],
 
-  "public": "true",
   "rewrites": [
     {
       "source": "/uploads/(.*)",
