@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button, Upload } from "antd";
+import { Modal, Button } from "antd";
 import Listings from "./Listings";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 function HomeFrame() {
   const style = {
-    "background-image": `url("home-i.png")`,
-    "background-repeat": "repeat",
-    "background-size": "cover",
+    backgroundImage: `url("home-i.png")`,
+    backgroundRepeat: "repeat",
+    backgroundSize: "cover",
     position: "absolute",
     height: "100%",
     width: "100%",
@@ -70,15 +70,15 @@ export const Home = () => {
 
         // Perform any additional actions upon successful file upload
       } else {
-        console.log("Error:", data.error);
+        toast.error("Error:", data.message);
         // Handle the error condition appropriately
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Error:", error);
       // Handle any network or other errors
     }
   };
-  console.log(file);
+
   const closeModal = () => {
     setIsModalOpen(false);
     setFile(null);
@@ -94,14 +94,13 @@ export const Home = () => {
     <div>
       <ToastContainer />
       <HomeFrame />
-      <Navbar onUpload={() => setIsModalOpen(true)} onLogout={handleLogout} />
       <Modal
         open={isModalOpen}
         onCancel={closeModal}
         title="File Upload"
         footer={[
           <Button key="upload" type="primary" onClick={handleUpload}>
-            Uploadd
+            Upload
           </Button>,
           <Button key="close" onClick={closeModal}>
             Close
@@ -127,8 +126,8 @@ export const Home = () => {
           <input
             type="file"
             id="fileInput"
-            multiple
             style={{ display: "none" }}
+            accept="application/pdf"
             onChange={handleFileChange}
           />
           <p>Drag and drop files here or click to upload</p>
@@ -143,6 +142,7 @@ export const Home = () => {
       <Listings
         onUpload={() => setIsModalOpen(true)}
         handleUpload={handleUpload}
+        onLogout={handleLogout}
       />
     </div>
   );

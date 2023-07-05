@@ -80,6 +80,7 @@ const FileListing = ({ file, fetchListings }) => {
           <ShareFileModal
             fileId={file._id}
             file={file}
+            fetchListings={fetchListings}
             onShareSuccess={handleShareSuccess}
             onShareError={handleShareError}
           />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Input } from "antd";
 import "./FileListing.css";
@@ -6,19 +6,16 @@ import NameCircle from "./NameCirlce";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ShareFileModal = ({ fileId, file }) => {
+const ShareFileModal = ({ fileId, file, fetchListings }) => {
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  console.log({ file });
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
+
   const handleShare = async () => {
     const accessToken = localStorage.getItem("access_token");
     try {
-      setIsLoading(true);
       const response = await fetch("http://localhost:8080/access", {
         method: "POST",
         headers: {
@@ -30,16 +27,21 @@ const ShareFileModal = ({ fileId, file }) => {
 
       const data = await response.json();
       if (response.ok) {
+        setEmail("");
+        fetchListings();
         toast.success(data.message);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error("An error occurred while sharing the file.");
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  // useEffect(() => {
+  //   handleShare();
+  //   console.log("first");
+  // }, [email]);
 
   return (
     <div className="share-container">
@@ -53,8 +55,8 @@ const ShareFileModal = ({ fileId, file }) => {
           onChange={handleEmailChange}
           style={{ padding: "0.3rem" }}
         />
-        <Button onClick={handleShare} type="primary" loading={isLoading}>
-          {isLoading ? "Sharing..." : "Share"}
+        <Button onClick={handleShare} type="primary">
+          Share
         </Button>
       </div>
 

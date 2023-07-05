@@ -5,8 +5,9 @@ import FileListing from "./FileListing";
 import NoDoc from "./NoDoc";
 import { Button, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import Navbar from "./Navbar";
 
-const Listings = ({ onUpload, handleUpload }) => {
+const Listings = ({ onUpload, handleUpload, handleLogout }) => {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { Search } = Input;
@@ -36,8 +37,11 @@ const Listings = ({ onUpload, handleUpload }) => {
   }, [handleUpload]);
 
   const onSearch = (value) => {
-    console.log(value);
     setSearchQuery(value);
+  };
+
+  const onChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   const filteredListings = listings.filter((listing) =>
@@ -48,38 +52,42 @@ const Listings = ({ onUpload, handleUpload }) => {
   const hasResults = filteredListings.length > 0;
 
   return (
-    <div className="mainfile-container">
-      <div className="topbar-container">
-        <Button
-          className="upload-button"
-          type="primary"
-          onClick={onUpload}
-          icon={<PlusOutlined />}
-        >
-          Upload New File
-        </Button>
-        <Search
-          placeholder="Search File"
-          onSearch={onSearch}
-          enterButton
-          style={{ width: "30%" }}
-        />
-      </div>
+    <>
+      <Navbar onLogout={handleLogout} />
+      <div className="mainfile-container">
+        <div className="topbar-container">
+          <Button
+            className="upload-button"
+            type="primary"
+            onClick={onUpload}
+            icon={<PlusOutlined />}
+          >
+            Upload New File
+          </Button>
+          <Search
+            placeholder="Search File"
+            onSearch={onSearch}
+            onChange={onChange}
+            enterButton
+            style={{ width: "30%" }}
+          />
+        </div>
 
-      <div className="files-container">
-        {hasResults ? (
-          filteredListings.map((listing) => (
-            <div key={listing._id} className="file-listing">
-              <FileListing file={listing} fetchListings={fetchListings} />
-            </div>
-          ))
-        ) : (
-          <>
-            <img src="nodata.jpeg" alt="No data found" />
-          </>
-        )}
+        <div className="files-container">
+          {hasResults ? (
+            filteredListings.map((listing) => (
+              <div key={listing._id} className="file-listing">
+                <FileListing file={listing} fetchListings={fetchListings} />
+              </div>
+            ))
+          ) : (
+            <>
+              <img src="nodata.jpeg" alt="No data found" />
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

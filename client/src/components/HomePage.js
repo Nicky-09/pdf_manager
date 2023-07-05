@@ -4,7 +4,7 @@ function LandingPageButton() {
   return (
     <Link to="/about" class="nav-link">
       <Button type="primary">
-        <Link to="/signup">Click Me!</Link>
+        <Link to="/signup">Join Us!</Link>
       </Button>
     </Link>
   );
@@ -30,9 +30,9 @@ function LandingFrameMessage() {
 }
 function LandingFrame() {
   const style = {
-    "background-image": `url("bg-img.png")`,
-    "background-repeat": "no-repeat",
-    "background-size": "cover",
+    backgroundImage: `url("bg-img.png")`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
     position: "absolute",
     height: "100%",
     width: "100%",

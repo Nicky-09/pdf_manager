@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     if (file.mimetype === "application/pdf") {
-      cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
+      cb(null, file.originalname + "-" + uniqueSuffix);
     } else {
       cb(new Error("Invalid file type. Only PDF files are allowed."));
     }
@@ -104,10 +104,10 @@ Router.post("/login", async (req, res) => {
 
     console.log("/login - user logged in successfully");
 
-    res.status(200).json({ token, success: true });
+    res.status(200).json({ token, success: true, email });
   } catch (error) {
     console.log("/login -error ", error);
-    res.status(500).json({ error: "Internal server error", success: false });
+    res.status(500).json({ message: "Internal server error", success: false });
   }
 });
 
@@ -166,7 +166,7 @@ Router.post("/access", authorize, async (req, res) => {
       if (!isAdminAccessAvailableToLoggedInUser) {
         return res
           .status(400)
-          .json({ message: "You don't have access to this file" });
+          .json({ message: "You don't have access to share this file" });
       }
 
       const exisitingUser = await Users.findOne({ email });

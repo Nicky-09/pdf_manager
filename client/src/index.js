@@ -9,7 +9,6 @@ import SignupForm from "./components/SignUpForm";
 import { Home } from "./components/Home";
 
 import HomePage from "./components/HomePage";
-import FileViewer from "./components/FileViewer";
 
 const appRouter = createBrowserRouter([
   {
@@ -26,12 +25,8 @@ const appRouter = createBrowserRouter([
         element: <LoginForm />,
       },
       {
-        path: "/upload",
+        path: "/",
         element: <HomePage />,
-      },
-      {
-        path: "/listings",
-        element: <FileViewer />,
       },
     ],
     // errorElement: <Error />,

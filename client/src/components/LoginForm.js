@@ -6,9 +6,9 @@ import { Button } from "antd";
 
 function LoginFrame() {
   const style = {
-    "background-image": `url("login-img.png")`,
-    "background-repeat": "no-repeat",
-    "background-size": "cover",
+    backgroundImage: `url("login-img.png")`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
     position: "absolute",
     height: "100%",
     width: "100%",
@@ -21,7 +21,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -42,7 +41,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         console.log("Login successful");
-        setLoggedIn(true);
+
         navigate("/home");
         // Perform any additional actions upon successful login
       } else {
