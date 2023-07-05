@@ -62,13 +62,13 @@ const Listings = ({
     listing?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (isLoading) {
-    return (
-      <div className="shimmer-container">
-        <Shimmer />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="shimmer-container">
+  //       <Shimmer />
+  //     </div>
+  //   );
+  // }
 
   // if (listings.length === 0)
   //   return (

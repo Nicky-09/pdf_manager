@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "antd";
 function LandingPageButton() {
   return (
-    <Link to="/about" class="nav-link">
+    <Link to="/signup" class="nav-link">
       <Button type="primary">
         <Link to="/signup">Join Us!</Link>
       </Button>
