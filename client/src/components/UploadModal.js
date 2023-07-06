@@ -28,8 +28,6 @@ const UploadModal = ({
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     setFile(file);
-    // Process the dropped file
-    // ...
   };
   return (
     <div>

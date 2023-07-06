@@ -4,22 +4,11 @@ import CommentCollapse from "./CommentCollapse";
 import { FilePdfOutlined, UserAddOutlined } from "@ant-design/icons";
 import "./FileListing.css";
 import ShareFileModal from "./ShareFileModal";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { url } from "../config";
 
 const FileListing = ({ file, fetchListings }) => {
   const [showModal, setShowModal] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
-
-  const handleShareSuccess = (message) => {
-    setShowModal(false);
-    toast.success(message);
-  };
-
-  const handleShareError = (error) => {
-    toast.error(error);
-  };
 
   const handleShareClick = () => {
     setShowModal(true);
@@ -42,9 +31,6 @@ const FileListing = ({ file, fetchListings }) => {
       return truncatedName;
     }
   };
-
-  const filename = file.name;
-  console.log(`${url}/public/${filename}`);
 
   return (
     <div className="file-card">
@@ -83,8 +69,6 @@ const FileListing = ({ file, fetchListings }) => {
             fileId={file._id}
             file={file}
             fetchListings={fetchListings}
-            onShareSuccess={handleShareSuccess}
-            onShareError={handleShareError}
           />
         </Modal>
       )}

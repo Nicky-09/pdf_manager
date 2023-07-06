@@ -37,21 +37,16 @@ const SignupForm = () => {
       });
 
       const data = await response.json();
-      // Handle the response data
 
       if (response.ok) {
         toast.success("User created successfully");
         console.log("SUCCESS");
         navigate("/login");
-
-        // Perform any additional actions upon successful user creation
       } else {
         toast.error(data.message);
-        // Handle the error condition appropriately
       }
     } catch (error) {
       console.error("Error:", error);
-      // Handle any network or other errors
     }
   };
 
@@ -63,9 +58,6 @@ const SignupForm = () => {
         <div className="form-container">
           <form onSubmit={handleSubmit}>
             <div className="input-container">
-              {/* <label className="label" htmlFor="username">
-                Username
-              </label> */}
               <input
                 className="input"
                 type="text"
@@ -74,9 +66,7 @@ const SignupForm = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              {/* <label className="label" htmlFor="email">
-              Email
-            </label> */}
+
               <input
                 className="input"
                 type="email"
@@ -84,9 +74,7 @@ const SignupForm = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {/* <label className="label" htmlFor="password">
-              Password
-            </label> */}
+
               <input
                 className="input"
                 type="password"

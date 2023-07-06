@@ -22,7 +22,7 @@ const upload = Multer({
   storage: Multer.memoryStorage(),
 });
 
-Router.get("/heathCheck", (req, res) => {
+Router.get("/healthhCheck", (req, res) => {
   res.send("Server is up and running");
 });
 
@@ -32,7 +32,7 @@ const authorize = (req, res, next) => {
   const token = req.headers.authorization || req.query.token;
   if (!token) {
     // Token not provided
-    return res.status(401).json({ error: "Authorization token not found" });
+    return res.status(401).json({ message: "Authorization token not found" });
   }
 
   try {
@@ -46,10 +46,12 @@ const authorize = (req, res, next) => {
   } catch (error) {
     console.log("authorization error:", error);
     // Token verification failed
-    return res.status(401).json({ error: "Invalid or expired token" });
+    return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 
+// Signup route implementation
+// Creates a new user account with provided username, email, and password
 Router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -77,6 +79,8 @@ Router.post("/signup", async (req, res) => {
   }
 });
 
+// Login route implementation
+// Authenticates user credentials (email and password) and generates a JWT token
 Router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -108,6 +112,8 @@ Router.post("/login", async (req, res) => {
   }
 });
 
+// File upload route implementation
+// Handles the file upload and stores the file in the firebase storage service
 Router.post(
   "/file/upload",
   authorize,
@@ -130,7 +136,7 @@ Router.post(
       });
 
       fileStream.on("error", (error) => {
-        res.status(500).json({ error: error });
+        res.status(500).json({ message: error });
       });
 
       fileStream.on("finish", async () => {
@@ -171,6 +177,8 @@ Router.post(
   }
 );
 
+// Access sharing route implementation
+// Allows authorized users to share access to a file with other users
 Router.post("/access", authorize, async (req, res) => {
   const { fileId, email } = req.body;
   const { userId } = req.user;
@@ -221,6 +229,8 @@ Router.post("/access", authorize, async (req, res) => {
   }
 });
 
+// Public file route implementation
+// Retrieves and serves a publicly accessible file based on the filename
 Router.get("/public/:filename", authorize, async (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, "public", filename);
@@ -247,6 +257,8 @@ Router.get("/public/:filename", authorize, async (req, res) => {
   }
 });
 
+// Comments route implementation
+// Allows authorized users to add comments to a specific file
 Router.post("/comments", authorize, async (req, res) => {
   const { userId, username } = req.user;
   const { fileId, comment } = req.body;
@@ -279,8 +291,8 @@ Router.post("/comments", authorize, async (req, res) => {
   }
 });
 
-module.exports = Router;
-
+// Listings route implementation
+// Retrieves a list of files that the user has access to, including associated comments
 Router.get("/listings", authorize, async (req, res) => {
   const { userId } = req.user;
 
@@ -299,8 +311,6 @@ Router.get("/listings", authorize, async (req, res) => {
       },
     ]);
 
-    console.log(listings);
-
     res.status(200).json({ listings });
     console.log({ listings });
   } catch (error) {
@@ -308,3 +318,5 @@ Router.get("/listings", authorize, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+module.exports = Router;
