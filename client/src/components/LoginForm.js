@@ -43,8 +43,8 @@ const LoginForm = () => {
 
       if (response.ok) {
         toast.success("Login successful");
-
         navigate("/home");
+        localStorage.setItem("success", data.success);
         // Perform any additional actions upon successful login
       } else {
         toast.error(data.message);

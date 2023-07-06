@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Listings from "./Listings";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +24,14 @@ export const Home = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    console.log("call");
+    const isLoggedIn = localStorage.getItem("success");
+    if (!isLoggedIn) {
+      navigate("/signup");
+    }
+  }, []);
 
   const handleUpload = async () => {
     setIsModalOpen(true);

@@ -21,7 +21,6 @@ const FileListing = ({ file, fetchListings }) => {
   const handleFileClick = (filename) => {
     setShowPdfModal(true);
   };
-  console.log(file.filePath);
 
   const shortenFileName = (fileName, maxLength) => {
     if (fileName.length <= maxLength) {

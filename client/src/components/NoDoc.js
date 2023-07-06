@@ -8,6 +8,7 @@ const NoDoc = ({ file, setFile, isModalOpen, setIsModalOpen }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("success");
     // setLoggedIn(false);
     navigate("/login");
   };
