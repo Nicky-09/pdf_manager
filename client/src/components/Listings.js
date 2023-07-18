@@ -11,8 +11,8 @@ import { url } from "../config";
 const Listings = ({ onUpload, handleUpload }) => {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
   const { Search } = Input;
-  // console.log(listings);
   const accessToken = localStorage.getItem("access_token");
   const fetchListings = async () => {
     try {
@@ -49,6 +49,15 @@ const Listings = ({ onUpload, handleUpload }) => {
     listing?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleDeleteFile = (fileId) => {
+    console.log("first");
+    const updatedListings = listings.filter(
+      (listing) => listing._id !== fileId
+    );
+    console.log({ listings });
+    setListings(updatedListings);
+  };
+
   const hasResults = filteredListings.length > 0;
 
   return (
@@ -79,7 +88,11 @@ const Listings = ({ onUpload, handleUpload }) => {
             {hasResults ? (
               filteredListings.map((listing) => (
                 <div key={listing._id} className="file-listing">
-                  <FileListing file={listing} fetchListings={fetchListings} />
+                  <FileListing
+                    file={listing}
+                    fetchListings={fetchListings}
+                    handleDeleteFile={handleDeleteFile}
+                  />
                 </div>
               ))
             ) : (

@@ -1,12 +1,16 @@
 import { Button, Modal } from "antd";
 import { useState } from "react";
 import CommentCollapse from "./CommentCollapse";
-import { FilePdfOutlined, UserAddOutlined } from "@ant-design/icons";
+import {
+  FilePdfOutlined,
+  UserAddOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import "./FileListing.css";
 import ShareFileModal from "./ShareFileModal";
 import "react-toastify/dist/ReactToastify.css";
 
-const FileListing = ({ file, fetchListings }) => {
+const FileListing = ({ file, fetchListings, handleDeleteFile }) => {
   const [showModal, setShowModal] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
 
@@ -31,6 +35,10 @@ const FileListing = ({ file, fetchListings }) => {
     }
   };
 
+  const handleDelete = () => {
+    handleDeleteFile(file._id);
+  };
+
   return (
     <div className="file-card">
       <div className="file-info">
@@ -50,6 +58,12 @@ const FileListing = ({ file, fetchListings }) => {
             className="share-button"
             icon={<UserAddOutlined />}
             onClick={handleShareClick}
+          />
+          <Button
+            type="text"
+            className="share-button"
+            icon={<DeleteOutlined />}
+            onClick={handleDelete}
           />
         </div>
       </div>
